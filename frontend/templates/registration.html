@@ -1,0 +1,81 @@
+{% load static %}  <!-- Load the static tag if you want to use local static files -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+
+<style>
+  
+    .bg-light {
+        background-color: #444; /* Dark Grey */
+    }
+    .card.border-primary {
+        border-color: #777; /* Dark Grey */
+    }
+    .card-header.bg-grey { /* Custom grey background */
+        background-color: #333; /* Grey */
+        color: #fff; /* White Text */
+    }
+    .btn-primary {
+        background-color: #333; /* Dark Grey */
+        border-color: #777; /* Dark Grey Border */
+    }
+    .btn-primary:hover {
+        background-color: #222; /* Slightly Darker Grey on Hover */
+        border-color: #666; /* Slightly Darker Grey Border on Hover */
+    }
+    /* Remove any blue colors in custom CSS here, if present */
+</style>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border border-primary shadow-lg">
+                <div class="card-header bg-grey text-white"> <!-- Apply the bg-grey class -->
+                    <h1 class="mb-0 text-center">Register</h1>
+                </div>
+                <div class="card-body">
+                    <!-- Add the toaster div -->
+                    <div class="toast-container position-fixed top-0 end-0 p-3">
+                        <div id="errorToast" class="toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+                            <div class="toast-header">
+                                <strong class="me-auto">Error</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                <!-- Error message will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                    <form action="{% url 'user-registration' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email:</label>
+                            <input type="email" name="email" id="id_email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">Password:</label>
+                            <input type="password" name="password" id="id_password" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_confirm_password" class="form-label">Confirm Password:</label>
+                            <input type="password" name="confirm_password" id="id_confirm_password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap JS and Popper.js scripts at the end of the body -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+</body>
+</html>

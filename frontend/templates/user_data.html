@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus Dados{% endblock %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="flex justify-center">
+  <div class="w-96 bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="p-6">
+      <h2 class="text-2xl font-bold mb-4">Meus Dados</h2>
+      <ul>
+        <li class="flex items-center mb-4">
+          <strong class="mr-2">Login:</strong>
+          <span>{{ user.email }}</span>
+        </li>
+        <li class="flex items-center mb-4">
+          <strong class="mr-2">Grupo:</strong>
+          <span>{{ user.groups }}</span>
+        </li>
+        <!-- Adicione mais informações do usuário conforme necessário -->
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

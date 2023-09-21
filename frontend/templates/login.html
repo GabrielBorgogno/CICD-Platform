@@ -1,0 +1,84 @@
+{% load static %} <!-- Load the static tag if you want to use local static files -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <!-- Add Tailwind CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Add your custom CSS if needed -->
+    <style>
+        /* Add any custom styles here if needed */
+        /* Define custom cyan color */
+        .bg-cyan-500 {
+            --tw-bg-opacity: 1;
+            background-color: rgba(10, 10, 10, var(--tw-bg-opacity));
+        }
+        .bg-cyan-500:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgba(30, 30, 30, var(--tw-bg-opacity));
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100"> <!-- Set the background color for the entire body -->
+
+<div class="container mx-auto mt-10">
+    <div class="max-w-md mx-auto">
+        <div class="bg-white p-8 shadow-md rounded-md">
+            <h1 class="mb-6 text-center text-3xl font-bold text-gray-800">Login</h1>
+            <form action="{% url 'user-login' %}" method="post" onsubmit="return handleSubmit()">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="id_email" class="block mb-2 text-gray-800">Email:</label>
+                    <input type="email" name="email" id="id_email" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>
+                    <div id="emailValidationMessage" class="mt-1 text-red-500 text-sm"></div> <!-- Element to display real-time validation message -->
+                </div>
+                <div class="mb-4">
+                    <label for="id_password" class="block mb-2 text-gray-800">Senha:</label>
+                    <input type="password" name="password" id="id_password" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>
+                </div>
+                <!-- Use the custom cyan color for the button -->
+                <button type="submit" class="w-full py-2 px-4 text-white bg-cyan-500 rounded-md hover:bg-cyan-600 focus:outline-none">Login</button>
+            </form>
+        </div>
+        <div class="mt-4 text-center">
+            <p>
+                <a href="{% url 'user-registration' %}" class="text-blue-500 hover:underline">Register</a>
+            </p>
+            <p class="mt-2">
+                <a href="{% url 'password_reset' %}" class="text-gray-500 hover:underline">Forgot my password</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Add Tailwind CSS and any custom JavaScript at the end of the body -->
+<script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+<script>
+    const emailInput = document.getElementById("id_email");
+    const emailValidationMessage = document.getElementById("emailValidationMessage");
+
+    emailInput.addEventListener("input", () => {
+        const email = emailInput.value.trim();
+        if (email === "") {
+            emailValidationMessage.textContent = "";
+            return;
+        }
+
+        fetch("{% url 'email-exists' %}?email=" + encodeURIComponent(email))
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    emailValidationMessage.textContent = "";
+                } else {
+                    emailValidationMessage.textContent = "Account does not exist.";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your App Title</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <!-- Link to Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            --tw-bg-opacity: 1;
+            background-color: whitesmoke;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #sidebar {
+            background-color: black;
+            color: #fff;
+            height: 100vh;
+            width: 120px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 0 0 10px cornflowerblue;
+            z-index: 1;
+            border-radius: 10px; /* Adiciona bordas arredondadas ao sidebar */
+            opacity: 0.8; /* Define a opacidade do sidebar */
+        }
+
+        .nav {
+            list-style: symbols();
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .nav-item {
+            padding: 10px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgba(5, 5, 5, var(--tw-bg-opacity));
+        }
+
+        .nav-link {
+            color: cornflowerblue;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Style for the sidebar icons */
+        .nav-link .fas {
+            font-size: 24px;
+            color: cornflowercornflowerblue;
+            transition: transform 0.3s ease;
+        }
+
+        /* Style for the text labels */
+        .nav-link .sidebar-text {
+            display: none;
+            margin-left: 7px;
+            transition: opacity 0.3s ease;
+        }
+
+        #sidebar.expanded .nav-link .sidebar-text {
+            display: inline-block;
+        }
+
+        /* Footer style */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: ;
+            text-align: center;
+            padding: 100px 0;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #content {
+            padding-left: 120px; /* Adjust the padding to create space for the sidebar */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <ul class="nav">
+            
+            <li class="nav-item">
+                
+                <a class="nav-link active" href="/"><i class="fas fa-sitemap"></i> Stack</a>
+            </li>
+            {% if perms.authentication.can_view_files %}
+            <li class="nav-item">
+                    <a class="nav-link active" href="/sftp_client"><i class="fa fa-server" ></i> SFTP</a>
+               {% endif %}
+            </li>
+            <li class="nav-item">
+                {%if perms.authentication.can_view_files_scripts %}
+                <a class="nav-link" href="/scripts"><i class="fa fa-terminal"></i> Code Runner</a>
+            {% endif %}
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link active" href="/user_data"><i class="fas fa-user-circle"></i> User Settings</a>
+            </li>
+            <!-- Logout button -->
+            <li class="nav-item">
+                {% if perms.authentication.can_view_database %}
+                <a class="nav-link" href="/migration"><i class="fa fa-database"></i> Migration</a>
+            {% endif %}
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Your main content area -->
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Bootstrap and other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <!-- Font Awesome Icons Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+</body>
+</html>

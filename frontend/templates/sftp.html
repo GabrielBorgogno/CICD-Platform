@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
++<head>
+    <title>SFTP Client</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .flex-right {
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-8">
+        <h1 class="text-2xl font-semibold mb-4">SFTP File List</h1>
+
+        {% if error_message %}
+        <p class="text-red-500 mb-4">{{ error_message }}</p>
+        {% endif %}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for item in file_list %}
+            <div class="bg-white rounded-lg shadow-md p-4 flex items-center space-x-4 flex-right">
+                <div>
+                    <svg class="w-8 h-8 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <!-- Add icons for different file types here -->
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-semibold">
+                        <a class="font-semibold">{{ item }}</a>
+                    </p>
+                    <p class="text-gray-500">{{ item.date }}</p> <!-- Add the date property of the item here -->
+                </div>
+                <div>
+                    {% if perms.authentication.candownloadfiles %}
+                        <a href="{% url 'download_file' file_name=item %}" class="btn btn-success">
+                            Download
+                        </a>
+                    {% else %}
+                        <a class="btn btn-danger disabled">
+                            Download
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}
